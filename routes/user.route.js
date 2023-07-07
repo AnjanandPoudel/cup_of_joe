@@ -35,21 +35,21 @@ router.get(
 );
 
 router.post(
-  "/register",
-  validate(["email", "password", "contact", "name"]),
+  "/auth/register",
+  validate(["email", "password", "contact", "name","address"]),
   validator,
   checkDuplicateValue(User, [{ key: "email", value: "body.email" }]),
   registerUser
 );
 
 router.post(
-  "/login",
+  "/auth/login",
   validate(["email", "password"]),
   validator,
   checkForExistence(User, [{ key: "email", value: "body.email" }], "existUser"),
   loginUser
 );
 
-router.post("/logout", checkAuthValidation, logOutUser);
+router.post("/auth/logout", checkAuthValidation, logOutUser);
 
 module.exports = router;

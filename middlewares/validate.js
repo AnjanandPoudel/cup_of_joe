@@ -1,4 +1,5 @@
 const { check ,query} = require("express-validator");
+const { typeOfCoffee, extraSugar, orderStatus } = require("../utils/constants");
 
 exports.getMethodValidate = () => {
   try {
@@ -47,33 +48,166 @@ exports.validate = (params) => {
     const result = [];
     params.forEach((element) => {
       switch (element) {
-        case "task":
+
+        case "email":
           result.push(
-            check("task", "Task is Invalid")
+            check(
+              "email",
+              "Email should be between 5 to 50 characters and proper Email"
+            )
               .notEmpty()
-              .isString()
-              .isLength({ min: 2, max: 100 })
-              .withMessage("Task should be between 2 and 100 characters")
-          );
-          break;
-        case "status":
-          result.push(
-            check("status", "Status is Invalid")
-              .notEmpty()
-              .custom((data) => {
-                if (Object.values(STATUS).includes(data)) {
-                  return true;
-                }
-                return false;
-              })
+              .isLength({ min: 5, max: 50 })
+              .isEmail()
+              .normalizeEmail()
           );
           break;
 
-        case "todoId":
+        case "password":
           result.push(
-            check("todoId", "todoId should be MongoId").notEmpty().isMongoId()
+            check(
+              "password",
+              "password should be more than 8 character but less than 30 char"
+            )
+              .notEmpty()
+              .isString()
+              .withMessage("Password should be in string form")
+              .isLength({ min: 8, max: 30 })
           );
           break;
+
+        case "name":
+          result.push(
+            check(
+              "name",
+              "Name should be between 2 to 50 characters and it should be string"
+            )
+              .notEmpty()
+              .isLength({ min: 2, max: 50 })
+              .isString()
+          );
+          break;
+
+        case "location":
+          result.push(
+            check(
+              "location",
+              "location should be between 2 to 50 characters and it should be string"
+            )
+              .notEmpty()
+              .isLength({ min: 2, max: 50 })
+              .isString()
+          );
+          break;
+
+        case "available":
+          result.push(
+            check(
+              "available",
+              "available should be Boolean"
+            )
+              .notEmpty()
+              .isBoolean()
+          );
+          break;
+
+        case "address":
+          result.push(
+            check(
+              "address",
+              "Address should be between 5 to 50 characters and it should be string"
+            )
+              .notEmpty()
+              .isLength({ min: 5, max: 50 })
+              .isString()
+          );
+          break;
+
+        case "extraRequest":
+          result.push(
+            check(
+              "extraRequest",
+              "extraRequest should be between 5 to 100 characters and it should be string"
+            )
+              .isLength({ min: 5, max: 100 })
+              .isString()
+              .optional()
+          );
+          break;
+
+        case "contact":
+          result.push(
+            check("contact", "contact not Valid, (Should be Mobile phone number)")
+              .notEmpty()
+              .isLength({ min: 7, max: 15 })
+              .isMobilePhone("ne-NP")
+          );
+          break;
+
+          case "typeOfCoffee":
+            result.push(
+              check("typeOfCoffee", "typeOfCoffee is Invalid (Enum) ")
+                .notEmpty()
+                .isLength({ min: 3, max: 40 })
+                .isString()
+                .custom((data) => Object.values(typeOfCoffee).includes(data))
+            );
+            break;
+
+          case "extraSugar":
+            result.push(
+              check("extraSugar", "extraSugar is Invalid (Enum) ")
+                .notEmpty()
+                .isLength({ min: 1, max: 20 })
+                .isString()
+                .custom((data) => Object.values(extraSugar).includes(data))
+            );
+            break;
+
+            case "userId":
+              result.push(
+                check("userId", "userId should be a mongoId and not Empty")
+                  .notEmpty()
+                  .isLength({ min: 5, max: 50 })
+                  .isMongoId()
+              );
+              break;
+     
+            case "ownerId":
+              result.push(
+                check("userId", "userId should be a mongoId and not Empty")
+                  .notEmpty()
+                  .isLength({ min: 5, max: 50 })
+                  .isMongoId()
+              );
+              break;
+     
+            case "cafeId":
+              result.push(
+                check("cafeId", "cafeId should be a mongoId and not Empty")
+                  .notEmpty()
+                  .isLength({ min: 5, max: 50 })
+                  .isMongoId()
+              );
+              break;
+
+            case "coffeeOrderId":
+              result.push(
+                check("coffeeOrderId", "coffeeOrderId should be a mongoId and not Empty")
+                  .notEmpty()
+                  .isLength({ min: 5, max: 50 })
+                  .isMongoId()
+              );
+              break;
+
+            case "quantity":
+              result.push(
+                check("quantity", "Quantity is Invalid ")
+                  .notEmpty()
+                  .isNumeric()
+                  .isInt({ min: 0})
+              );
+              break;
+     
       }
     });
     return result;
@@ -88,27 +222,49 @@ exports.validateOpt = (params) => {
     const result = [];
     params.forEach((element) => {
       switch (element) {
-        case "task":
+
+        case "location":
           result.push(
-            check("task", "Task is Invalid")
+            check(
+              "location",
+              "location should be between 2 to 50 characters and it should be string"
+            )
               .optional()
+              .isLength({ min: 2, max: 50 })
               .isString()
-              .isLength({ min: 2, max: 100 })
-              .withMessage("Task should be between 2 and 100 characters")
           );
           break;
-        case "status":
+
+        case "available":
           result.push(
-            check("status", "Status is Invalid")
+            check(
+              "available",
+              "available should be Boolean"
+            )
               .optional()
-              .custom((data) => {
-                if (Object.values(STATUS).includes(data)) {
-                  return true;
-                }
-                return false;
-              })
+              .isBoolean()
           );
           break;
+
+          case "orderStatus":
+            result.push(
+              check("orderStatus", "orderStatus is Invalid (Enum) ")
+                .optional()
+                .isLength({ min: 1, max: 40 })
+                .isString()
+                .custom((data) => Object.values(orderStatus).includes(data))
+            );
+            break;
+
+            case "quantity":
+              result.push(
+                check("quantity", "Quantity is Invalid ")
+                  .optional()
+                  .isNumeric()
+                  .isInt({ min: 0})
+              );
+              break;
+       
       }
     });
     return result;

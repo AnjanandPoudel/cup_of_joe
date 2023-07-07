@@ -36,13 +36,14 @@ exports.getUser = async (req, res) => {
 
 exports.registerUser = async (req, res) => {
   try {
-    const { name, contact, password, email } = req.body;
+    const { name, contact, password, email,address } = req.body;
 
     const data = await new User({
       name: name,
       contact,
       password,
       email,
+      address
     }).save();
 
     if (!data) {

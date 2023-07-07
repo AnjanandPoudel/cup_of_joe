@@ -8,7 +8,7 @@ const { checkAuthValidation } = require("../middlewares/authentication");
   const { isOwner } = require("../middlewares/isUserType");
   const { validate, getMethodValidate } = require("../middlewares/validate");
   const { validator } = require("../middlewares/validator");
-  const User = require("../model/user.model");
+const Owner = require("../model/owner.model");
   
   const router = require("express").Router();
   
@@ -22,29 +22,29 @@ const { checkAuthValidation } = require("../middlewares/authentication");
   );
   
   router.get(
-    "/:userId",
+    "/:ownerId",
     checkAuthValidation,
-    validate(["userId"]),
+    validate(["ownerId"]),
     validator,
     getOwner
   );
   
   router.post(
-    "/register",
+    "/auth/register",
     validate(["email", "password", "contact", "name"]),
     validator,
-    checkDuplicateValue(User, [{ key: "email", value: "body.email" }]),
+    checkDuplicateValue(Owner, [{ key: "email", value: "body.email" }]),
     registerOwner
   );
   
   router.post(
-    "/login",
+    "/auth/login",
     validate(["email", "password"]),
     validator,
-    checkForExistence(User, [{ key: "email", value: "body.email" }], "existUser"),
+    checkForExistence(Owner, [{ key: "email", value: "body.email" }], "existOwner"),
     loginOwner
   );
   
-  router.post("/logout", checkAuthValidation, logOutOwner);
+  router.post("/auth/logout", checkAuthValidation, logOutOwner);
   module.exports = router;
   

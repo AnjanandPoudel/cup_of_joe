@@ -1,5 +1,6 @@
 exports.isOwner=(req,res,next)=>{
     try {
+        
         if (!req.admin) {
             throw new SetErrorResponse("You must be Owner to Access this.", 401);
           }
