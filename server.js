@@ -14,6 +14,7 @@ dotenv.config({
 //routes declaration
 const ApiRouter = require("./routes/main.route");
 const { failCase, successCase } = require("./utils/requestHandler");
+const cookieParser = require("cookie-parser");
 
 //database
 connectDatabase();
@@ -24,6 +25,7 @@ app.use(cors());
 app.use(morgan("dev"));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(cookieParser())
 
 const port = parseInt(process.argv[2]) || process.env.PORT || 3000;
 app.set("port", port);

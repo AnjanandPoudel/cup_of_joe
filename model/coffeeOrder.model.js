@@ -22,12 +22,12 @@ const orderSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
-    userId: {
+    user: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },
-    cafeId: {
+    cafe: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "Cafe",
