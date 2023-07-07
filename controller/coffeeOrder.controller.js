@@ -37,13 +37,13 @@ exports.postCoffeeOrderController = async (req, res) => {
     //we already checked for authentication and middleware that, it is user who is posting order for coffee
 
     const { cafeId } = req.params;
-    const { quantity, typeofCoffee, extraRequest, extraSugar } = req.body;
+    const { quantity, typeOfCoffee, extraRequest, extraSugar } = req.body;
 
     const data = await new CoffeeOrder({
       cafe: cafeId,
       user: req.user?._id,
       quantity,
-      typeofCoffee,
+      typeOfCoffee,
       extraRequest,
       extraSugar,
       orderStatus: "pending",

@@ -3,14 +3,15 @@ const crypto = require('crypto');
 
 // Define the owner schema
 const ownerSchema = new mongoose.Schema({
-  ownerId: {
-    type: String,
-    required: true
-  },
+ 
   email: {
     type: String,
     required: true,
     unique: true
+  },
+  name: {
+    type: String,
+    required: true,
   },
   contact: {
     type: String,

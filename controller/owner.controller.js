@@ -37,6 +37,7 @@ exports.registerOwner = async (req, res) => {
   try {
     const { name, contact, password, email } = req.body;
 
+
     const data = await new Owner({
       name: name,
       contact,

@@ -38,7 +38,7 @@ exports.postCafeController = async (req, res) => {
     const data = await new Cafe({
       location,
       available,
-      owner: ownerId,
+      owner: req.admin._id,
     }).save();
 
     res.success(data);
@@ -51,6 +51,7 @@ exports.patchCafeController = async (req, res) => {
   try {
     //From middleware only owner can use it
     const { cafeId } = req.params;
+    const { location, available } = req.body;
 
     const data = await Cafe.findOneAndUpdate(
       { _id: cafeId },
