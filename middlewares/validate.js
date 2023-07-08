@@ -126,9 +126,9 @@ exports.validate = (params) => {
           result.push(
             check(
               "extraRequest",
-              "extraRequest should be between 5 to 100 characters and it should be string"
+              "extraRequest should be between 2 to 100 characters and it should be string"
             )
-              .isLength({ min: 5, max: 100 })
+              .isLength({ min: 2, max: 100 })
               .isString()
               .optional()
           );
@@ -222,6 +222,28 @@ exports.validateOpt = (params) => {
     const result = [];
     params.forEach((element) => {
       switch (element) {
+
+
+        case "contact":
+          result.push(
+            check("contact", "contact not Valid, (Should be Mobile phone number)")
+              .optional()
+              .isLength({ min: 7, max: 15 })
+              .isMobilePhone("ne-NP")
+          );
+          break;
+
+        case "name":
+          result.push(
+            check(
+              "name",
+              "Name should be between 2 to 50 characters and it should be string"
+            )
+              .optional()
+              .isLength({ min: 2, max: 50 })
+              .isString()
+          );
+          break;
 
         case "location":
           result.push(

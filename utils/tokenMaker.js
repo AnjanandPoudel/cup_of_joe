@@ -1,10 +1,10 @@
-const jwt = require("express-jwt");
+const jwt = require("jsonwebtoken");
 
 exports.tokenMaker=async ({secretKey,values,identifier})=>{
     try {
         const token=jwt.sign(
             {
-             ...values
+             ...values,identifier
             },
             secretKey
           );

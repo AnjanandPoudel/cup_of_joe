@@ -1,0 +1,20 @@
+How to run the application?
+
+- npm install
+- npm start   // for starting the application
+
+BASEURL: http://localhost:5000/api
+DOCUMENTATION_HOSTED_ON: http://localhost:5000/doc
+
+// the application is tested using mocha and supertest
+-npm test // for testing the application
+
+
+// For API documentation
+// swagger API documentation is used
+
+// Api DOCUMENTAION IS HOSTED IN
+URL-for-documentation: http://localhost:5000/doc
+
+
+

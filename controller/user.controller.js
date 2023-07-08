@@ -60,18 +60,18 @@ exports.loginUser = async (req, res) => {
   try {
     const secretKey = customCreateSecretKey();
     const { password, email } = req.body;
-    if (!req?.existUser?.authentication(password)) {
-      return res.json({ error: `Password Invalid` }).status(401);
+    const data= await User.findOne({email:email},"+salt +hashed_password")
+    if (!data.authentication(password)) {
+      return res.json({ error: `Password Did Not Matched` }).status(401);
     }
 
-    const token = tokenMaker({
+    const token =await tokenMaker({
       secretKey,
       values: {
         _id: data._id,
         name: data?.name,
         email,
         contact: data?.contact,
-        tokenIdentifier: identifier,
       },
       identifier: "login",
     });
@@ -82,7 +82,7 @@ exports.loginUser = async (req, res) => {
         secure: process.env.NODE_ENV === "production",
       })
       .status(200)
-      .json({ message: "Logged in successfully !!" });
+      .json({ message: "Logged in successfully !!",token });
   } catch (e) {
     res.fail(e);
   }

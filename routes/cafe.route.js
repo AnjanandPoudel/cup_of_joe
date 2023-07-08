@@ -17,7 +17,7 @@ router.get("/:cafeId", validate(["cafeId"]), validator, getCafeController);
 
 router.post(
   "/",
-  validate(["location","available"]),
+  validate(["location","available","name","contact"]),
   validator,
   checkAuthValidation,
   isOwner,
@@ -27,7 +27,7 @@ router.post(
 router.patch(
   "/:cafeId",
   validate(["cafeId"]),
-  validateOpt(["location", "available"]),
+  validateOpt(["location", "available","name","contact"]),
   validator,
   checkAuthValidation,
   isOwner,
@@ -35,7 +35,7 @@ router.patch(
 );
 
 router.use(
-  "/:cafeId",
+  "/:cafeId/coffee-order",
   validate(["cafeId"]),
   validator,
   checkAuthValidation,

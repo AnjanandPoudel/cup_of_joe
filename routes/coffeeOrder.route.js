@@ -27,7 +27,6 @@ router.get(
   "/:coffeeOrderId",
   validate(["coffeeOrderId"]),
   validator,
-  isUser,
   getCoffeeOrderController
 );
 

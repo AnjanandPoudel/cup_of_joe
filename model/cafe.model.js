@@ -2,6 +2,14 @@ const mongoose = require("mongoose");
 
 // Define the order schema
 const cafeSchema = new mongoose.Schema({
+  name:{
+    type: String,
+    required: true,
+  },
+  contact:{
+    type: Number,
+    required: true,
+  },
   location: {
     type: String,
     required: true,

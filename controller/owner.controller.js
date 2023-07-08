@@ -3,6 +3,7 @@ const jwt = require("express-jwt");
 const { getPaginatedData } = require("../utils/pagination");
 const { customCreateSecretKey } = require("../utils/customCreateSecretKey");
 const { SetErrorResponse } = require("../utils/responseSetter");
+const { tokenMaker } = require("../utils/tokenMaker");
 
 exports.getOwners = async (req, res) => {
   try {
@@ -59,18 +60,20 @@ exports.loginOwner = async (req, res) => {
   try {
     const secretKey = customCreateSecretKey();
     const { password, email } = req.body;
-    if (!req?.existOwner?.authentication(password)) {
-      return res.json({ error: `Password Invalid` }).status(401);
+    
+    const data= await Owner.findOne({email:email},"+salt +hashed_password")
+
+    if (!data?.authentication(password)) {
+      return res.json({ error: `Password Did Not Matched` }).status(401);
     }
 
-    const token = tokenMaker({
+    const token =await tokenMaker({
       secretKey,
       values: {
         _id: data._id,
         name: data?.name,
         email,
-        contact: data?.contact,
-        tokenIdentifier: identifier,
+        contact: data?.contact
       },
       identifier: "login",
     });
@@ -78,10 +81,9 @@ exports.loginOwner = async (req, res) => {
     return res
       .cookie("access_token", token, {
         httpOnly: true,
-        secure: process.env.NODE_ENV === "production",
       })
       .status(200)
-      .json({ message: "Logged in successfully !!" });
+      .send({ message: "Logged in successfully !!",token });
   } catch (e) {
     res.fail(e);
   }

@@ -34,11 +34,13 @@ exports.getCafeController = async (req, res) => {
 //! Only for Owners
 exports.postCafeController = async (req, res) => {
   try {
-    const { location, available } = req.body;
+    const { location, available, name, contact } = req.body;
     const data = await new Cafe({
       location,
       available,
       owner: req.admin._id,
+      name,
+      contact,
     }).save();
 
     res.success(data);
@@ -51,13 +53,15 @@ exports.patchCafeController = async (req, res) => {
   try {
     //From middleware only owner can use it
     const { cafeId } = req.params;
-    const { location, available } = req.body;
+    const { location, available, name, contact } = req.body;
 
     const data = await Cafe.findOneAndUpdate(
       { _id: cafeId },
       {
         location,
         available,
+        name,
+        contact,
       }
     ); // you can also use {new:true} for immediate update and to send data back to the client
 

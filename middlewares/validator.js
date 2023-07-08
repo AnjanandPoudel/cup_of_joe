@@ -10,7 +10,7 @@ exports.validator = (req, res, next) => {
 
     if (!validationResultIs.isEmpty()) {
       const finalError =
-        validationResultIs.array({ onlyFirstError: true })[0].param +
+        validationResultIs.array({ onlyFirstError: true })[0].path +
         " :" +
         validationResultIs.array({ onlyFirstError: true })[0].msg;
       throw new SetErrorResponse(

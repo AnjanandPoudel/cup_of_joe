@@ -13,11 +13,13 @@ dotenv.config({
 
 //routes declaration
 const ApiRouter = require("./routes/main.route");
+const swaggerRouter = require("./helpers/swagger.init")
 const { failCase, successCase } = require("./utils/requestHandler");
 const cookieParser = require("cookie-parser");
 
 //database
 connectDatabase();
+
 
 
 //CORS
@@ -36,7 +38,10 @@ app.use('*',(req,res,next) => {
     next()
 })
 
+
 //routes will be here
+app.use("/doc", swaggerRouter);
+
 app.use("/api",ApiRouter)
 
 //handle other requests with 404 if not handled previously
@@ -46,6 +51,10 @@ app.use("*", (req, res, next) => {
     message: "Api endpoint not found !!!",
   });
 });
+
+exports.appReturn = () => {
+  return app;
+};
 
 app.listen(port, () => {
   console.log(

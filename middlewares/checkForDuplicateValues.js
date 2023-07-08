@@ -1,3 +1,5 @@
+const { SetErrorResponse } = require("../utils/responseSetter");
+
 exports.checkDuplicateValue = (model, queries) => {
   const returnFunc = async (req, res, next) => {
     try {

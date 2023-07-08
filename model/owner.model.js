@@ -35,6 +35,7 @@ ownerSchema.virtual("password")
 .set(async function(password){
     this.real_password = password
     this.salt = await this.makeSalt();
+    
     this.hashed_password =  this.encryptPasswordFunc(password,this.salt);
 })
 .get(function(){
@@ -44,6 +45,7 @@ ownerSchema.virtual("password")
 ownerSchema.methods = {
     authentication(password){
         const encrypt= this.encryptPasswordFunc(password,this.salt);
+        console.log(encrypt,this.hashed_password)
         if(!encrypt || !this.hashed_password) return false;
         return encrypt === this.hashed_password;
 

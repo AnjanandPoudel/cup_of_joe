@@ -4,7 +4,7 @@ const { extraSugar, typeOfCoffee, orderStatus } = require("../utils/constants");
 // Define the order schema
 const orderSchema = new mongoose.Schema(
   {
-    typeofCoffee: {
+    typeOfCoffee: {
       type: String,
       enum: Object.values(typeOfCoffee),
       required: true,
